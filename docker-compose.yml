@@ -1,0 +1,31 @@
+version: '3.1'
+
+services:
+  database:
+    image: docker.arvancloud.ir/mysql:8
+    mem_limit: 1024m
+    mem_reservation: 100m
+    cpus: 1
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+    env_file:
+      - .env
+    restart: unless-stopped
+    volumes:
+      - /var/volumes/datadir:/var/lib/mysql
+    ports:
+      - "33306:3306"
+
+  app:
+    build: ./assets
+    ports:
+      - "3000:3000"
+    depends_on:
+      - database
+    mem_limit: 800m
+    mem_reservation: 100m
+    cpus: 1
+    env_file:
+      - .env
+    restart: unless-stopped
