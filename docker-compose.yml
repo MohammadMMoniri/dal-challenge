@@ -17,11 +17,20 @@ services:
     ports:
       - "33306:3306"
 
+  redis:
+    image: docker.arvancloud.ir/redis:7-alpine
+    restart: unless-stopped
+    mem_limit: 1024m
+    mem_reservation: 100m
+    env_file:
+      - .env
+
   app:
     build: ./assets
     ports:
       - "3000:3000"
     depends_on:
+      - redis
       - database
     mem_limit: 800m
     mem_reservation: 100m

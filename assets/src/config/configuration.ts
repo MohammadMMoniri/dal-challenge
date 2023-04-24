@@ -7,4 +7,8 @@ export default () => ({
         password: process.env.MYSQL_ROOT_PASSWORD,
         database: process.env.MYSQL_DATABASE,
     },
+    redis: {
+        host: process.env.QUEUE_HOST,
+        port: parseInt(process.env.QUEUE_PORT, 10) || 6379,
+    },
 });
